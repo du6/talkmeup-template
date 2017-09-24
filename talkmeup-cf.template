@@ -1,0 +1,100 @@
+{
+    "Description": "Talk Me Up: We empower your words!",
+    "Outputs": {
+        "InstancePublicIp": {
+            "Description": "Public IP of our instance",
+            "Value": {
+                "Fn::GetAtt": [
+                    "instance",
+                    "PublicIp"
+                ]
+            }
+        },
+        "WebUrl": {
+            "Description": "Application endpoint",
+            "Value": {
+                "Fn::Join": [
+                    "",
+                    [
+                        "http://",
+                        {
+                            "Fn::GetAtt": [
+                                "instance",
+                                "PublicDnsName"
+                            ]
+                        },
+                        ":",
+                        "3000"
+                    ]
+                ]
+            }
+        }
+    },
+    "Parameters": {
+        "KeyPair": {
+            "ConstraintDescription": "must be the name of an existing EC2 KeyPair.",
+            "Description": "EC2 KeyPair to SSH",
+            "Type": "AWS::EC2::KeyPair::KeyName"
+        }
+    },
+    "Resources": {
+        "SecurityGroup": {
+            "Properties": {
+                "GroupDescription": "Allow SSH and TCP/3000 access",
+                "SecurityGroupIngress": [
+                    {
+                        "CidrIp": "0.0.0.0/0",
+                        "FromPort": "22",
+                        "IpProtocol": "tcp",
+                        "ToPort": "22"
+                    },
+                    {
+                        "CidrIp": "0.0.0.0/0",
+                        "FromPort": "3000",
+                        "IpProtocol": "tcp",
+                        "ToPort": "3000"
+                    }
+                ]
+            },
+            "Type": "AWS::EC2::SecurityGroup"
+        },
+        "instance": {
+            "Properties": {
+                "ImageId": "ami-9e90a5fe",
+                "InstanceType": "t2.micro",
+                "KeyName": {
+                    "Ref": "KeyPair"
+                },
+                "SecurityGroups": [
+                    {
+                        "Ref": "SecurityGroup"
+                    }
+                ],
+                "UserData": {
+                    "Fn::Base64": {
+                        "Fn::Join": [
+                            "\n",
+                            [
+                                "#!/bin/bash",
+                                "sudo yum -y install git",
+                                "git clone https://github.com/du6/talkmeup.git",
+                                "sudo yum -y install python35",
+                                "sudo yum -y install python35-setuptools",
+                                "sudo easy_install-3.5 pip",
+                                "pip3 install --upgrade pip",
+                                "sudo python3 -m pip install virtualenv",
+                                "virtualenv -p python3 talkmeup-env",
+                                "source talkmeup-env/bin/activate",
+                                "cd talkmeup",
+                                "pip install -r requirements.txt",
+                                "python manage.py migrate",
+                                "python manage.py runserver 0.0.0.0:3000"
+                            ]
+                        ]
+                    }
+                }
+            },
+            "Type": "AWS::EC2::Instance"
+        }
+    }
+}
