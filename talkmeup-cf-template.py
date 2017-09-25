@@ -61,7 +61,7 @@ t.add_resource(ec2.Instance(
     InstanceType="t2.micro",
     SecurityGroups=[Ref("SecurityGroup")],
     KeyName=Ref("KeyPair"),
-    UserData=ud,
+    # UserData=ud, // Configured with ansible
 ))
 t.add_output(Output(
     "InstancePublicIp",
