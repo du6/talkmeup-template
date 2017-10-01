@@ -12,7 +12,7 @@ from troposphere import (
 ApplicationPort = "3000"
 
 t = Template()
-t.add_description("Talk Me Up: We empower your words!")
+t.add_description("Talk Me Up:  For your ideal public self.")
 t.add_parameter(Parameter(
     "KeyPair",
     Description="EC2 KeyPair to SSH",

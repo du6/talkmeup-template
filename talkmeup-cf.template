@@ -1,5 +1,5 @@
 {
-    "Description": "Talk Me Up: We empower your words!",
+    "Description": "Talk Me Up: For your ideal public self.",
     "Outputs": {
         "InstancePublicIp": {
             "Description": "Public IP of our instance",
