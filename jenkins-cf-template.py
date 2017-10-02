@@ -73,7 +73,6 @@ t.add_resource(ec2.SecurityGroup(
 
 ud = Base64(Join('\n', [
     "#!/bin/bash",
-    "sudo yum install --enablerepo=epel -y git",
     "sudo pip install --upgrade pip",
     "sudo /usr/local/bin/pip install ansible",
     "wget https://raw.githubusercontent.com/du6/talkmeup-ansible/master/localhost -P /home/ec2-user/",
