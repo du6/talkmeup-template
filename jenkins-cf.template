@@ -134,12 +134,10 @@
                             "\n",
                             [
                                 "#!/bin/bash",
-                                "sudo yum install --enablerepo=epel -y git",
                                 "sudo pip install --upgrade pip",
                                 "sudo /usr/local/bin/pip install ansible",
                                 "wget https://raw.githubusercontent.com/du6/talkmeup-ansible/master/localhost -P /home/ec2-user/",
-                                "/usr/local/bin/ansible-pull -U https://github.com/du6/talkmeup-ansible jenkins.yml -i localhost",
-                                "echo '*/10 * * * * /usr/local/bin/ansible-pull -U https://github.com/du6/talkmeup-ansible jenkins.yml -i localhost' > /etc/cron.d/ansible-pull"
+                                "/usr/local/bin/ansible-pull -U https://github.com/du6/talkmeup-ansible jenkins.yml -i localhost"
                             ]
                         ]
                     }

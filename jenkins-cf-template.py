@@ -77,7 +77,6 @@ ud = Base64(Join('\n', [
     "sudo /usr/local/bin/pip install ansible",
     "wget https://raw.githubusercontent.com/du6/talkmeup-ansible/master/localhost -P /home/ec2-user/",
     GithubPullCmd,
-    "echo '*/10 * * * * {}' > /etc/cron.d/ansible-pull".format(GithubPullCmd)
 ]))
 
 t.add_resource(Role(
